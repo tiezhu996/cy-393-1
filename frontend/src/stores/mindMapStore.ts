@@ -22,6 +22,7 @@ interface MindMapState {
   addChild: () => void;
   addSibling: () => void;
   removeSelected: () => void;
+  setIcon: (icon: string) => void;
   setTheme: (theme: string) => void;
   selectNode: (id?: string) => void;
   undo: () => void;
@@ -64,6 +65,14 @@ export const useMindMapStore = create<MindMapState>((set, get) => ({
     const id = get().selectedId; if (!id) return;
     const ids = subtreeIds(id, get().active().edges);
     mutateActive(set, get, (file) => { file.nodes = file.nodes.filter((n) => !ids.includes(n.id)); file.edges = file.edges.filter((e) => !ids.includes(e.source) && !ids.includes(e.target)); });
+  },
+  setIcon: (icon: string) => {
+    const selectedId = get().selectedId;
+    if (!selectedId) return;
+    mutateActive(set, get, (file) => {
+      const node = file.nodes.find((n) => n.id === selectedId);
+      if (node) node.data = { ...node.data, icon };
+    });
   },
   setTheme: (theme) => mutateActive(set, get, (file) => { file.theme = theme; }),
   selectNode: (id) => set({ selectedId: id }),
