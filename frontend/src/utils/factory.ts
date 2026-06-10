@@ -1,7 +1,7 @@
-import type { Edge, Node } from "reactflow";
-import type { MindMapFile } from "../types/mindmap";
+import type { Edge } from "reactflow";
+import type { MindMapFile, MindMapNode } from "../types/mindmap";
 
-export function createNode(label: string, x: number, y: number): Node {
+export function createNode(label: string, x: number, y: number): MindMapNode {
   return { id: crypto.randomUUID(), type: "default", position: { x, y }, data: { label, icon: "•", collapsed: false } };
 }
 
